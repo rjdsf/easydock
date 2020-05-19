@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:latest
+    env_file:
+      - ./.env
+    ports:
+      - ${HOST_PORT}:80
+    restart: always
+    container_name: ${REPO_NAME}-nginx
+    environment:
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      NGINX_APP_ROOT:  ${NGINX_APP_ROOT}
+      NGINX_INDEX_FILE: ${NGINX_INDEX_FILE}
+      NGINX_PHP_SERVER: ${REPO_NAME}-php
+    volumes:
+      - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
+      - ./config/templates:/var/templates:ro
+      - ./logs/nginx:/logs/nginx:delegated
+      - ./config/nginx/hosts:/etc/nginx/conf.d:delegated
+    command: /bin/bash -c "envsubst '$$NGINX_APP_ROOT $$NGINX_INDEX_FILE $$NGINX_PHP_SERVER' < /var/templates/nginx/default.template > /etc/nginx/conf.d/default.conf && cp -n /var/templates/wp/wp-config.php  var/www/html/${REPO_NAME}/wp-config.php && exec nginx -g 'daemon off;'"
+    networks:
+      - docker-ecommerce-network
+  php-fpm:
+    build: .
+    restart: always
+    container_name: ${REPO_NAME}-php
+    environment:
+      WP_ENV: ${WP_ENV}
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      S3_PATH: ${S3_PATH}
+      S3_STORAGE: ${S3_STORAGE}
+      MEMCACHE_SESSIONS: ${MEMCACHE_SESSIONS}
+      MEMCACHED_HOST: ${MEMCACHED_HOST}
+      REDISCACHE_SESSIONS: ${REDISCACHE_SESSIONS}
+      REDISCACHE_HOST: ${REDISCACHE_HOST}
+      AWS_ACCESS_KEY_ID: AWS_SECRET_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY_SECRET
+      PHP_IDE_CONFIG: serverName=${REPO_NAME}
+    volumes:
+        - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
+        - ./config/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:ro
+        - ./config/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+        - ./logs/xdebug:/logs/xdebug:delegated
+    networks:
+        - docker-ecommerce-network
+        
+networks:
+  docker-ecommerce-network:
+    external: true
+
