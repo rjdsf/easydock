@@ -29,8 +29,8 @@ services:
     container_name: ${REPO_NAME}-php
     volumes:
         - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
-        - ./config/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:delegated
-        - ./config/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:delegated
+        - ./config/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+        - ./config/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:ro
         - ./logs/xdebug:/logs/xdebug:delegated
     networks:
         - docker-affiliate-network
