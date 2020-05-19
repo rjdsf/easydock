@@ -1,0 +1,14 @@
+[req]
+default_bits=2048
+prompt=no
+default_md=sha256
+distinguished_name=dn
+
+[dn]
+C=UK
+ST=Nottingham
+L=Nottingham
+O=Moreniche
+OU=MN
+emailAddress=ricardo.ferreira@moreniche.com
+CN = dev-moreniche.com
