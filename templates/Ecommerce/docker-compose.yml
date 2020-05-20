@@ -18,7 +18,7 @@ services:
       - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
       - ./config/templates:/var/templates:ro
       - ./logs/nginx:/logs/nginx:delegated
-      - ./config/nginx/hosts:/etc/nginx/conf.d:delegated
+      # - ./config/nginx/hosts:/etc/nginx/conf.d:delegated   #Only use if you need additional configuration or debug the generated config
     command: /bin/bash -c "envsubst '$$NGINX_APP_ROOT $$NGINX_INDEX_FILE $$NGINX_PHP_SERVER' < /var/templates/nginx/default.template > /etc/nginx/conf.d/default.conf && cp -n /var/templates/wp/wp-config.php  var/www/html/${REPO_NAME}/wp-config.php && exec nginx -g 'daemon off;'"
     networks:
       - docker-ecommerce-network
@@ -34,12 +34,6 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       S3_PATH: ${S3_PATH}
       S3_STORAGE: ${S3_STORAGE}
-      MEMCACHE_SESSIONS: ${MEMCACHE_SESSIONS}
-      MEMCACHED_HOST: ${MEMCACHED_HOST}
-      REDISCACHE_SESSIONS: ${REDISCACHE_SESSIONS}
-      REDISCACHE_HOST: ${REDISCACHE_HOST}
-      AWS_ACCESS_KEY_ID: AWS_SECRET_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY_SECRET
       PHP_IDE_CONFIG: serverName=${REPO_NAME}
     volumes:
         - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
