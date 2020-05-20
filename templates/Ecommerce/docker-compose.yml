@@ -38,6 +38,7 @@ services:
     volumes:
         - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
         - ./configs/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:ro
+        - ./configs/php/www2.conf:/usr/local/etc/php-fpm.d/www2.conf:ro
         - ./configs/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
         - ./logs/xdebug:/logs/xdebug:delegated
     networks:
