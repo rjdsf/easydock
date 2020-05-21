@@ -10,6 +10,16 @@ server {
         try_files $uri $uri/ /${NGINX_INDEX_FILE}?$query_string;
     }
 
+    #check if the file is in your local
+    location ~ "^(.*)/wp-content/uploads/(.*)$" {
+    try_files $uri $uri/ @s3_files;
+    }
+
+    # Will redirect requests to your s3
+    location @s3_files {
+        rewrite "^(.*)/wp-content/uploads/(.*)$" "${S3_URI}/$2" redirect;
+    }
+
 
     # redirect server error pages to the static page /50x.html
     #

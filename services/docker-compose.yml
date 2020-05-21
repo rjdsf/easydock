@@ -4,7 +4,7 @@ services:
     nginx-proxy:
         container_name: nginx-proxy
         image: jwilder/nginx-proxy
-        restart: always
+        restart: unless-stopped
         ports:
             - 80:80
             - 443:443
@@ -18,7 +18,7 @@ services:
     redis:
         container_name: redis
         image: redis
-        restart: always
+        restart: unless-stopped
         ports:
             - 6379:6379
         networks:
@@ -27,7 +27,7 @@ services:
     mariadb:
         container_name: mariadb
         image: mariadb
-        restart: always
+        restart: unless-stopped
         ports:
             - 3306:3306
         environment:
