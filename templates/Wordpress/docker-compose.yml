@@ -14,12 +14,13 @@ services:
       NGINX_APP_ROOT:  ${NGINX_APP_ROOT}
       NGINX_INDEX_FILE: ${NGINX_INDEX_FILE}
       NGINX_PHP_SERVER: ${REPO_NAME}-php
+      S3_URI: ${S3_URI}
     volumes:
       - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
       - ./templates:/var/templates:ro
       - ./logs/nginx:/logs/nginx:delegated
-      # - ./configs/nginx/hosts:/etc/nginx/conf.d:delegated   #Only use if you need additional configuration or debug the generated config
-    command: /bin/bash -c "envsubst '$$NGINX_APP_ROOT $$NGINX_INDEX_FILE $$NGINX_PHP_SERVER' < /var/templates/nginx/default.template > /etc/nginx/conf.d/default.conf && cp -n /var/templates/wp/wp-config.php  ${NGINX_APP_ROOT}/wp-config.php && exec nginx -g 'daemon off;'"
+  #    - ./configs/nginx/hosts:/etc/nginx/conf.d:delegated   #Only use if you need additional configuration or debug the generated config
+    command: /bin/bash -c "envsubst '$$NGINX_APP_ROOT $$NGINX_INDEX_FILE $$NGINX_PHP_SERVER $$S3_URI' < /var/templates/nginx/default.template > /etc/nginx/conf.d/default.conf && cp -n /var/templates/wp/wp-config.php  ${NGINX_APP_ROOT}/wp-config.php && exec nginx -g 'daemon off;'"
     networks:
       - docker-ecommerce-network
   php-fpm:
@@ -32,8 +33,6 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      S3_PATH: ${S3_PATH}
-      S3_STORAGE: ${S3_STORAGE}
       PHP_IDE_CONFIG: serverName=${REPO_NAME}
     volumes:
         - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
@@ -41,6 +40,8 @@ services:
         - ./configs/php/www2.conf:/usr/local/etc/php-fpm.d/www2.conf:ro
         - ./configs/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
         - ./logs/xdebug:/logs/xdebug:delegated
+        - ./logs/php:/logs/php:delegated
+        
     networks:
         - docker-ecommerce-network
         

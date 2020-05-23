@@ -60,9 +60,17 @@ function aws_sync(){
 
  if [ -d "wp-content/uploads/elementor" ]; then
     CURRENT_DIR=${PWD##*/}
-    echo "synking aws uploads/elementor";
-     aws s3 sync s3://ecs-moreniche-wp-content/${CURRENT_DIR}-prod/wp-content/uploads/elementor  wp-content/uploads/elementor --profile default  && \
-      echo "sync completed";
+  
+    if [ $1 == "all" ]; then
+        echo "synking uploads";
+        aws s3 sync s3://ecs-moreniche-wp-content/${CURRENT_DIR}-prod/wp-content/uploads  wp-content/uploads --profile default  && \
+        echo "sync completed";
+    else
+        echo "synking  wp-content/uploads/elementor ";
+        aws s3 sync s3://ecs-moreniche-wp-content/${CURRENT_DIR}-prod/wp-content/uploads/elementor  wp-content/uploads/elementor --profile default  && \
+        echo "sync completed";
+    fi
+
    else
     echo "you need to run this comand in thr root of the repo"
    fi
