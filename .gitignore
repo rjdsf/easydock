@@ -2,4 +2,9 @@
 
 # Ignore codebase for the apps
 apps/*/*
+
+#ignore db files
 services/mariadb/mysql/*
+
+#ignore IDE
+.vscode/

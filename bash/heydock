@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Manage local wp core files
+function get_wp(){
+
+    ##
+    # Do we have an installation?
+    if [ -f "wp-includes/version.php" ]; then
+        # Determine the WordPress Version from any existing installation
+        LOCAL_WP_VERSION=$(sed -n 's/$wp_version = \(.*\)/\1/p' < wp-includes/version.php | sed -e s/"'"/""/g -e s/";"/""/g)
+    else
+        # If we dont have a local install then flag exit
+        echo "Could not find a local WordPress Install"
+        SHOULD_EXIT=false
+    fi
+
+
+    ##
+    # Check if we are up to date with the latest wordpress used in Production?
+    # Determine the WordPress Version from the dockerfile
+    WP_VERSION=$(sed -n 's/FROM.*mnltd-wp:.*_WP\(.*\)/\1/p' < Dockerfile)
+
+    if [ -z $WP_VERSION ]; then
+        WP_VERSION=$(sed -n 's/FROM.*mnltd-wp:\(.*\)/\1/p' < Dockerfile)
+    fi
+
+    # if we dont have a version in the dockerfile then flag exit
+    [[ -z "${WP_VERSION}" ]] && SHOULD_EXIT=true || SHOULD_EXIT=false
+
+    if [[ $LOCAL_WP_VERSION = $WP_VERSION ]]; then
+      SHOULD_EXIT=true
+    fi
+
+    if [[ $SHOULD_EXIT != true ]]; then
+        #Update the local wordpress
+        echo "Downloading WordPress ${WP_VERSION} core files"
+        wget -q --no-check-certificate https://github.com/WordPress/WordPress/archive/${WP_VERSION}.tar.gz && \
+        echo "Unzipping ${WP_VERSION}.tar.gz" && \
+        tar zxf ${WP_VERSION}.tar.gz && \
+        echo "Removing ${WP_VERSION}.tar.gz" && \
+        rm -rf ${WP_VERSION}.tar.gz && \
+        echo "Removing WordPress-${WP_VERSION}/wp-content" && \
+        rm -rf WordPress-${WP_VERSION}/wp-content && \
+        echo "Copying contents of WordPress-${WP_VERSION}/*" && \
+        cp -r WordPress-${WP_VERSION}/* . && \
+        echo "Removing WordPress-${WP_VERSION}" && \
+        rm -rf WordPress-${WP_VERSION} && \
+        echo "Running cleanup" && \
+        rm -rf wp-config-sample.php \
+               readme.html \
+               license.txt \
+
+    else
+        echo "No Action Required"
+    fi
+
+}
+
+function aws_sync(){
+
+ if [ -d "wp-content/uploads/elementor" ]; then
+    CURRENT_DIR=${PWD##*/}
+    echo "synking aws uploads/elementor";
+     aws s3 sync s3://ecs-moreniche-wp-content/${CURRENT_DIR}-prod/wp-content/uploads/elementor  wp-content/uploads/elementor --profile default  && \
+      echo "sync completed";
+   else
+    echo "you need to run this comand in thr root of the repo"
+   fi
+
+}
+
+# run any given first command as a function above.
+$@
