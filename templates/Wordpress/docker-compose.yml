@@ -18,8 +18,8 @@ services:
     volumes:
       - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
       - ./templates:/var/templates:ro
-      - ./logs/nginx:/logs/nginx:delegated
-  #    - ./configs/nginx/hosts:/etc/nginx/conf.d:delegated   #Only use if you need additional configuration or debug the generated config
+      # - ./logs/nginx:/logs/nginx:delegated   #only uncomment if neeed to ouput logs  here ( need to edit the default.template to save the log files here)
+      # - ./configs/nginx/hosts:/etc/nginx/conf.d:delegated   #Only use if you need additional configuration or debug the generated config
     command: /bin/bash -c "envsubst '$$NGINX_APP_ROOT $$NGINX_INDEX_FILE $$NGINX_PHP_SERVER $$S3_URI' < /var/templates/nginx/default.template > /etc/nginx/conf.d/default.conf && cp -n /var/templates/wp/wp-config.php  ${NGINX_APP_ROOT}/wp-config.php && exec nginx -g 'daemon off;'"
     networks:
       - docker-ecommerce-network
@@ -39,9 +39,8 @@ services:
         - ./configs/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:ro
         - ./configs/php/www2.conf:/usr/local/etc/php-fpm.d/www2.conf:ro
         - ./configs/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
-        - ./logs/xdebug:/logs/xdebug:delegated
-        - ./logs/php:/logs/php:delegated
-        
+        # - ./logs/xdebug:/logs/xdebug:delegated   #uncomment if you whant to save profiles or xdebug logs ( need to change xdebug.ini log file location )
+        # - ./logs/php:/logs/php:delegated  #uncomment if you whant to save logs here ( need to change www2.conf log file location )
     networks:
         - docker-ecommerce-network
         
