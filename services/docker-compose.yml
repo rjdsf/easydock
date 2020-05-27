@@ -10,8 +10,8 @@ services:
             - 443:443
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
-            # - ./proxy/vhost:/etc/nginx/vhost.d:ro       when we whant to use Per-VIRTUAL_HOST configuration
-            # - ./proxy/certs:/etc/nginx/certs:ro         When you want to use  ssl
+            # - ./proxy/vhost:/etc/nginx/vhost.d:ro       #when we whant to use Per-VIRTUAL_HOST configuration
+            - ./proxy/certs:/etc/nginx/certs:ro           # If not using ssl comment this out 
         networks:
             - docker-affiliate-network
             - docker-ecommerce-network

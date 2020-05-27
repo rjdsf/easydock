@@ -15,12 +15,12 @@ Email Address []:ricardo.ferreira@moreniche.com
 after this add the rootCA.pem to the keyChain and gif full access 
 
 
----- 2 part to generate creteficates for domains -----
+---- 2 part to generate creteficates for domains ----- pass: moreniche
 
 
-openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout dev-moreniche.com.key -config <( cat server.csr.cnf )
+openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout wpdev.com.key -config <( cat server.csr.cnf )
 
-openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out dev-moreniche.com.crt -days 500 -sha256 -extfile v3.ext
+openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out wpdev.com.crt -days 500 -sha256 -extfile v3.ext
 
 
 rm  server.csr
