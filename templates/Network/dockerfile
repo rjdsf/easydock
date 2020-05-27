@@ -1,6 +1,14 @@
 FROM php:7.4-fpm
 
  RUN docker-php-ext-install mysqli \
-    && docker-php-ext-install pdo_mysql \
-    && pecl install xdebug-2.8.1 \
-    && docker-php-ext-enable xdebug
+   && docker-php-ext-install pdo_mysql \
+   && pecl install redis-5.2.2 \
+   && docker-php-ext-enable redis\
+   && pecl install xdebug-2.8.1 \
+   && docker-php-ext-enable xdebug \
+   && touch fpm-error.log /var/log \
+   && touch fpm-access.log /var/log \
+   && touch xdebug.log /var/log \
+   && ln -sf /dev/stderr /var/log/fpm-error.log \
+   && ln -sf /dev/stdout /var/log/fpm-access.log\
+   && ln -sf /dev/stdout /var/log/xdebug.log
