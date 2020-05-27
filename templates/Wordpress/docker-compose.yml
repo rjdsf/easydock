@@ -28,6 +28,7 @@ services:
     restart: unless-stopped
     container_name: ${REPO_NAME}-php
     environment:
+      WP_HTTPS: ${HTTPS}
       WP_ENV: ${WP_ENV}
       DB_HOST: ${DB_HOST}
       DB_NAME: ${DB_NAME}

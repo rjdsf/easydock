@@ -19,6 +19,20 @@ define('WP_CACHE', true ); // Added by W3 Total Cache
 
 define('WP_ENV', getenv('WP_ENV')??'development' );
 
+/**
+ * https Check
+ */
+$https_enabled = (bool)getenv("WP_HTTPS");
+
+if($https_enabled){
+/** Set protocol HTTPS */
+$_SERVER['HTTPS'] = 'on';
+    define('WP_PROTO', 'https://');
+    define('FORCE_SSL_ADMIN',true);
+}else{
+    define('FORCE_SSL_ADMIN',false); 
+}
+
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
@@ -96,12 +110,13 @@ define('ALLOW_UNFILTERED_UPLOADS', true);
 
 
 /** Dev configuration  */
-define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);
+define('WP_DEBUG', false);
+define('WP_DEBUG_LOG', false);
 define('WP_DEBUG_DISPLAY', false);
 define('DISALLOW_FILE_MODS', false);
 define('W3TC_CONFIG_DIR', __DIR__ . '/wp-content/w3tc-config-dev/');
-define('FORCE_SSL_ADMIN',false);
+
+
 
 /**
  * Redis Object Cache Settings
