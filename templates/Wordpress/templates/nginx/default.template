@@ -28,6 +28,8 @@ server {
         root   /usr/share/nginx/html;
     }
 
+    fastcgi_buffers 16 16k; 
+    fastcgi_buffer_size 32k;    
 
     location ~ \.php$ {
         try_files $uri =404;
