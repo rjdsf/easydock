@@ -58,7 +58,7 @@ function get_wp(){
 
 function aws_sync(){
 
- if [ -d "wp-content/uploads/elementor" ]; then
+ if [ -d "wp-content/uploads" ]; then
     CURRENT_DIR=${PWD##*/}
   
     if [ $1 == "all" ]; then
