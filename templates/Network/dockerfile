@@ -11,4 +11,6 @@ FROM php:7.4-fpm
    && touch xdebug.log /var/log \
    && ln -sf /dev/stderr /var/log/fpm-error.log \
    && ln -sf /dev/stdout /var/log/fpm-access.log\
-   && ln -sf /dev/stdout /var/log/xdebug.log
+   && ln -sf /dev/stdout /var/log/xdebug.log\
+   && apt-get update\
+   &&  apt-get install git -y
