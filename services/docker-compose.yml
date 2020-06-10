@@ -32,8 +32,8 @@ services:
             - 3306:3306
         environment:
             - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_USER=moreniche
-            - MYSQL_PASSWORD=admin
+            - MYSQL_USER=moreniche2013
+            - MYSQL_PASSWORD=Admin123
         volumes:
             - ./mariadb/mysql:/var/lib/mysql:delegated
         networks:
