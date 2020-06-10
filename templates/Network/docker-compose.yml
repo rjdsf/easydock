@@ -8,13 +8,13 @@ services:
     ports:
       - ${HOST_PORT}:${HOST_PORT}
     restart: unless-stopped
-    container_name: ${NGINX_SERVICE_NAME}
+    container_name: ${CONTAINER_NAME}
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
       VIRTUAL_PORT: ${HOST_PORT}
       NGINX_APP_ROOT:  ${NGINX_APP_ROOT}
       NGINX_INDEX_FILE: ${NGINX_INDEX_FILE}
-      NGINX_PHP_SERVER: ${REPO_NAME}-php
+      NGINX_PHP_SERVER: php-${CONTAINER_NAME}
     volumes:
       - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
       - ./templates:/var/templates:ro
@@ -26,10 +26,10 @@ services:
   php-fpm:
     build: .
     restart: unless-stopped
-    container_name: ${REPO_NAME}-php
+    container_name: php-${CONTAINER_NAME}
     environment:
       APP_ENV: ${APP_ENV}
-      PHP_IDE_CONFIG: serverName=${REPO_NAME}
+      PHP_IDE_CONFIG: serverName=${CONTAINER_NAME}
     volumes:
         - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
         - ./configs/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:ro
