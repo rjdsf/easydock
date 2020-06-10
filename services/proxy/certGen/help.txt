@@ -18,9 +18,9 @@ after this add the rootCA.pem to the keyChain and gif full access
 ---- 2 part to generate creteficates for domains ----- pass: moreniche
 
 
-openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout mixi.local.key -config <( cat server.csr.cnf )
+openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout moreniche.local.key -config <( cat server.csr.cnf )
 
-openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out mixi.local.crt -days 500 -sha256 -extfile v3.ext
+openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out moreniche.local.crt -days 500 -sha256 -extfile v3.ext
 
 
 rm  server.csr
