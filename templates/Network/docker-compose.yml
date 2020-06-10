@@ -6,29 +6,30 @@ services:
     env_file:
       - ./.env
     ports:
-      - ${HOST_PORT}:80
+      - ${HOST_PORT}:${HOST_PORT}
     restart: unless-stopped
-    container_name: ${APP_NAME}-nginx
+    container_name: ${NGINX_SERVICE_NAME}
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
+      VIRTUAL_PORT: ${HOST_PORT}
       NGINX_APP_ROOT:  ${NGINX_APP_ROOT}
       NGINX_INDEX_FILE: ${NGINX_INDEX_FILE}
-      NGINX_PHP_SERVER: ${APP_NAME}-php
+      NGINX_PHP_SERVER: ${REPO_NAME}-php
     volumes:
       - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
       - ./templates:/var/templates:ro
       # - ./logs/nginx:/logs/nginx:delegated   #only uncomment if neeed to ouput logs  here ( need to edit the default.template to save the log files here)
-      # - ./configs/nginx:/etc/nginx/conf.d:delegated   #Only use if you need additional configuration or debug the generated config
-    command: /bin/bash -c "envsubst '$$NGINX_APP_ROOT $$NGINX_INDEX_FILE $$NGINX_PHP_SERVER' < /var/templates/nginx/default.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
+      #- ./configs/nginx/hosts:/etc/nginx/conf.d:delegated   #Only use if you need additional configuration or debug the generated config
+    command: /bin/bash -c "envsubst '$$NGINX_APP_ROOT $$NGINX_INDEX_FILE $$NGINX_PHP_SERVER $$VIRTUAL_PORT' < /var/templates/nginx/default.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
     networks:
       - docker-affiliate-network
   php-fpm:
     build: .
     restart: unless-stopped
-    container_name: ${APP_NAME}-php
+    container_name: ${REPO_NAME}-php
     environment:
       APP_ENV: ${APP_ENV}
-      PHP_IDE_CONFIG: serverName=${APP_NAME}
+      PHP_IDE_CONFIG: serverName=${REPO_NAME}
     volumes:
         - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
         - ./configs/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:ro
@@ -38,8 +39,7 @@ services:
         # - ./logs/php:/logs/php:delegated  #uncomment if you whant to save logs here ( need to change www2.conf log file location )
     networks:
         - docker-affiliate-network
-        
+
 networks:
   docker-affiliate-network:
     external: true
-
