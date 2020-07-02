@@ -4,15 +4,7 @@ FROM php:7.4-fpm
    && docker-php-ext-install pdo_mysql \
    && pecl install redis-5.2.2 \
    && docker-php-ext-enable redis\
-   && pecl install xdebug-2.8.1 \
+   && pecl install xdebug \
    && docker-php-ext-enable xdebug \
-   && mkdir /var/logs \
-   && touch /var/logs/fpm-error.log \
-   && touch /var/logs/fpm-access.log \
-   && touch /var/logs/xdebug.log  \
-   && chown 766 /var/logs/xdebug.log \
-   && ln -sf /dev/stderr /var/logs/fpm-error.log \
-   && ln -sf /dev/stdout /var/logs/fpm-access.log\
-   && ln -sf /dev/stdout /var/logs/xdebug.log \
    && apt-get update\
    && apt-get install git -y
