@@ -6,14 +6,16 @@ services:
     env_file:
       - ./.env
     ports:
-      - ${HOST_PORT}:80
+      - ${HOST_PORT}:${HOST_PORT}
     restart: unless-stopped
-    container_name: ${REPO_NAME}-nginx
+    container_name: ${CONTAINER_NAME}
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
+      VIRTUAL_PORT: ${HOST_PORT}
+      HTTPS_METHOD: noredirect
       NGINX_APP_ROOT:  ${NGINX_APP_ROOT}
       NGINX_INDEX_FILE: ${NGINX_INDEX_FILE}
-      NGINX_PHP_SERVER: ${REPO_NAME}-php
+      NGINX_PHP_SERVER: php-${CONTAINER_NAME}
       S3_URI: ${S3_URI}
     volumes:
       - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
@@ -26,7 +28,7 @@ services:
   php-fpm:
     build: .
     restart: unless-stopped
-    container_name: ${REPO_NAME}-php
+    container_name: php-${CONTAINER_NAME}
     environment:
       WP_HTTPS: ${HTTPS}
       WP_ENV: ${WP_ENV}
@@ -34,7 +36,7 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      PHP_IDE_CONFIG: serverName=${REPO_NAME}
+      PHP_IDE_CONFIG: serverName=${CONTAINER_NAME}
     volumes:
         - ./codebase/${REPO_NAME}:/var/www/html/${REPO_NAME}:delegated
         - ./configs/php/custom-php-config.ini:/usr/local/etc/php/conf.d/custom-php-config.ini:ro

@@ -12,6 +12,7 @@ services:
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
       VIRTUAL_PORT: ${HOST_PORT}
+      HTTPS_METHOD: noredirect
       NGINX_APP_ROOT:  ${NGINX_APP_ROOT}
       NGINX_INDEX_FILE: ${NGINX_INDEX_FILE}
       NGINX_PHP_SERVER: php-${CONTAINER_NAME}

@@ -1,5 +1,5 @@
 server {
-    listen 80 default_server;
+    listen  ${VIRTUAL_PORT}  default_server;
     index index.html index.htm ${NGINX_INDEX_FILE};
     server_name _;
     error_log  /var/log/nginx/access.log;
@@ -21,27 +21,24 @@ server {
     }
 
 
-    # redirect server error pages to the static page /50x.html
+   # redirect server error pages to the static page /50x.html
     #
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
         root   /usr/share/nginx/html;
     }
 
-    fastcgi_buffers 16 16k; 
-    fastcgi_buffer_size 32k;    
-    
+    fastcgi_buffers 16 16k;
+    fastcgi_buffer_size 32k;
+
     location ~ \.php$ {
         try_files $uri =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        include fastcgi_params;
         fastcgi_pass   ${NGINX_PHP_SERVER}:9000;
         fastcgi_index  ${NGINX_INDEX_FILE};
-        
-        include fastcgi_params;
-
+        fastcgi_intercept_errors on;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
-        fastcgi_read_timeout 300;
-
+        fastcgi_read_timeout 3000;
     }
 }
