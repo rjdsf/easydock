@@ -1,7 +1,7 @@
 server {
     listen  ${VIRTUAL_PORT}  default_server;
     index index.html index.htm ${NGINX_INDEX_FILE};
-    server_name _;
+    server_name ${NGINX_SERVER_NAME};
     error_log  /var/log/nginx/access.log;
     access_log /var/log/nginx/error.log;
     root ${NGINX_APP_ROOT};
