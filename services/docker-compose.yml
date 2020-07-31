@@ -24,6 +24,17 @@ services:
         networks:
             - docker-affiliate-network
             - docker-ecommerce-network
+    redis-commander:
+        container_name: redis-commander
+        hostname: redis-commander
+        image: rediscommander/redis-commander:latest
+        environment:
+        - REDIS_HOSTS=local:redis:6379
+        ports:
+        - 8081:8081
+        networks:
+            - docker-affiliate-network
+            - docker-ecommerce-network
     mariadb:
         container_name: mariadb
         image: mariadb
