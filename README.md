@@ -17,7 +17,7 @@ docker-compose up -d
 - inside use the Codebase folder to clone you repo ( e.g. codebase/yourRepo )
 - new update the .env file to meet the requirements of you app
 
-( e.g.  for wodpress)
+( e.g.  for wodPress)
 ```
 CONTAINER_NAME=trimtone
 REPO_NAME=trimtone
