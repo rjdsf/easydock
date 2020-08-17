@@ -15,7 +15,7 @@ docker-compose up -d
 - Copy One of the templates ( Network or WordPress )  and paste it in apps folder
 - Rename the folder to a name of your choice
 - inside use the Codebase folder to clone you repo ( e.g. codebase/yourRepo )
-- new update the .env file to meet the requirements of you app
+- Update the .env file to meet the requirements of you app
 
 ( e.g.  for wodPress)
 ```
