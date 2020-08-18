@@ -34,4 +34,4 @@ DB_NAME=trimtone
 S3_URI=https://ecs-moreniche-wp-content.s3.amazonaws.com/trimtone-prod/wp-content/uploads
 ```
 
-### For SSL certificates check  [CertGenHelp](services/services/proxy/certGen/README.md)
+### For SSL certificates check  [CertGenHelp](tree/master/services/proxy/certGen)
