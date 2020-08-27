@@ -21,6 +21,9 @@ services:
         restart: unless-stopped
         ports:
             - 6379:6379
+        volumes:
+            - ./redis/redis.conf:/redis.conf:delegated
+        command: [ "redis-server", "/redis.conf" ]
         networks:
             - docker-affiliate-network
             - docker-ecommerce-network
