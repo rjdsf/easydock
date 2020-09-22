@@ -84,4 +84,4 @@ rm  server.csr
 Move  domainName.local.crt and domainName.local.key to the cert folder  ```easydock/services/proxy/certs```
 
 
-Note : it may be required a restart off reverse proxy server.
+Note : it may be required a restart off the reverse proxy server.
