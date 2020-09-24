@@ -4,5 +4,5 @@ keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = moreniche.local
-DNS.2 = *.moreniche.local
+DNS.1 = .local
+DNS.2 = *.local
