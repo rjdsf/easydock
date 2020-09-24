@@ -27,7 +27,6 @@ Email Address []:your.email@moreniche.com
 All done you should now add the generated RooCa.perm file generated to the key chain and give it full access
 
 after this add the rootCA.pem to the keyChain and give it  full access.  
-e.g. :
 <br>
 <br>
 
