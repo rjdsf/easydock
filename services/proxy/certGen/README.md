@@ -37,7 +37,7 @@ after this add the rootCA.pem to the keyChain and give it  full access.
 Update server.srv.conf to meet your needs.  
 You should only need to change the following lines:  
 ```
-emailAddress=ricardo.ferreira@moreniche.com
+emailAddress=your.email@yourDomain.com
 CN = *.domain.local
 ```
 CN => Canonical name , use  ( * ) wildcard if needed.
