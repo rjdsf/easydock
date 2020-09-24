@@ -11,4 +11,4 @@ L=Nottingham
 O=DevWork
 OU=DW
 emailAddress=dev@devwork.com
-CN = *.local
+CN = *.dev.local

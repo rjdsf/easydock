@@ -7,10 +7,10 @@ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem
 Country Name (2 letter code) []:uk
 State or Province Name (full name) []:Nottingham
 Locality Name (eg, city) []:Nottingham
-Organization Name (eg, company) []:companyDomain
-Organizational Unit Name (eg, section) []:CN
+Organization Name (eg, company) []:DevWork
+Organizational Unit Name (eg, section) []:DW
 Common Name (eg, fully qualified host name) []:Local Certificate
-Email Address []:your@email.com
+Email Address []:DevWork@dw.com
 
 after this add the rootCA.pem to the keyChain and gif full access 
 
