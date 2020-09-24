@@ -1,7 +1,5 @@
 .DS_Store
 
-
-
 #ignore db files
 services/mariadb/mysql/*
 

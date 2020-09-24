@@ -10,11 +10,11 @@ services:
             - 443:443
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
-            # - ./proxy/vhost:/etc/nginx/vhost.d:ro       #when we whant to use Per-VIRTUAL_HOST configuration
+            # - ./proxy/vhost:/etc/nginx/vhost.d:ro       #when we want to use Per-VIRTUAL_HOST configuration
             - ./proxy/certs:/etc/nginx/certs:ro           # If not using ssl comment this out 
         networks:
-            - docker-affiliate-network
-            - docker-ecommerce-network
+            - docker-default-network
+            - docker-wpdev-network
     redis:
         container_name: redis
         image: redis
@@ -25,8 +25,8 @@ services:
             - ./redis/redis.conf:/redis.conf:delegated
         command: [ "redis-server", "/redis.conf" ]
         networks:
-            - docker-affiliate-network
-            - docker-ecommerce-network
+            - docker-default-network
+            - docker-wpdev-network
     redis-commander:
         container_name: redis-commander
         hostname: redis-commander
@@ -36,8 +36,8 @@ services:
         ports:
         - 8081:8081
         networks:
-            - docker-affiliate-network
-            - docker-ecommerce-network
+            - docker-default-network
+            - docker-wpdev-network
     mariadb:
         container_name: mariadb
         image: mariadb
@@ -46,13 +46,13 @@ services:
             - 3306:3306
         environment:
             - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_USER=moreniche2013
+            - MYSQL_USER=User123
             - MYSQL_PASSWORD=Admin123
         volumes:
             - ./mariadb/mysql:/var/lib/mysql:delegated
         networks:
-            - docker-ecommerce-network
-            - docker-affiliate-network
+            - docker-default-network
+            - docker-wpdev-network
     dozzle:
         container_name: dozzle
         image: amir20/dozzle:latest
@@ -60,11 +60,8 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
         ports:
             - 9999:8080
-
-
-
 networks:
-    docker-ecommerce-network:
+    docker-wpdev-network:
         external: true
-    docker-affiliate-network:
+    docker-default-network:
         external: true

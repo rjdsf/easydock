@@ -24,7 +24,7 @@ function get_wp(){
         WP_VERSION=$(sed -n 's/FROM.*mnltd-wp:\(.*\)/\1/p' < Dockerfile)
     fi
 
-    # if we dont have a version in the dockerfile then flag exit
+    # if we don't have a version in the dockerfile then flag exit
     [[ -z "${WP_VERSION}" ]] && SHOULD_EXIT=true || SHOULD_EXIT=false
 
     if [[ $LOCAL_WP_VERSION = $WP_VERSION ]]; then
@@ -63,16 +63,16 @@ function aws_sync(){
   
     if [ $1 == "all" ]; then
         echo "synking uploads";
-        aws s3 sync s3://ecs-moreniche-wp-content/${CURRENT_DIR}-prod/wp-content/uploads  wp-content/uploads --profile default  && \
+        aws s3 sync s3://s3-bucket/${CURRENT_DIR}-prod/wp-content/uploads  wp-content/uploads --profile default  && \
         echo "sync completed";
     else
-        echo "synking  wp-content/uploads/elementor ";
-        aws s3 sync s3://ecs-moreniche-wp-content/${CURRENT_DIR}-prod/wp-content/uploads/elementor  wp-content/uploads/elementor --profile default  && \
+        echo "syncing  wp-content/uploads/elementor ";
+        aws s3 sync s3://s3-bucket/${CURRENT_DIR}-prod/wp-content/uploads/elementor  wp-content/uploads/elementor --profile default  && \
         echo "sync completed";
     fi
 
    else
-    echo "you need to run this comand in thr root of the repo"
+    echo "you need to run this command in thr root of the repo"
    fi
 
 }
