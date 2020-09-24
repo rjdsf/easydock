@@ -6,16 +6,16 @@ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem
 
 Country Name (2 letter code) []:uk
 State or Province Name (full name) []:Nottingham
-Locality Name (eg, city) []:Nottningham
-Organization Name (eg, company) []:Moreniche
-Organizational Unit Name (eg, section) []:MN
+Locality Name (eg, city) []:Nottingham
+Organization Name (eg, company) []:companyDomain
+Organizational Unit Name (eg, section) []:CN
 Common Name (eg, fully qualified host name) []:Local Certificate
 Email Address []:ricardo.ferreira@moreniche.com
 
 after this add the rootCA.pem to the keyChain and gif full access 
 
 
----- 2 part to generate creteficates for domains ----- pass: moreniche
+---- 2 part to generate creteficates for domains ----- pass: should be the password provided in the first step
 
 
 openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout moreniche.local.key -config <( cat server.csr.cnf )

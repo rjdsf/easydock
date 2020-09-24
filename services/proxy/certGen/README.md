@@ -19,7 +19,7 @@ Locality Name (eg, city) []:Nottningham
 Organization Name (eg, company) []:SomeCompanyName
 Organizational Unit Name (eg, section) []:SCN
 Common Name (eg, fully qualified host name) []:Local Certificate
-Email Address []:your.email@moreniche.com
+Email Address []:your.email@email.com
 ```
 
 All done you should now add the generated RooCa.perm file generated to the key chain and give it full access
