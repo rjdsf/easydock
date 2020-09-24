@@ -5,3 +5,8 @@ services/mariadb/mysql/*
 
 #ignore IDE
 .vscode/
+
+#Cert 
+rootCA.key
+rootCA.pem
+
